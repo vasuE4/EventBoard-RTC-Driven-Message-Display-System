@@ -1,0 +1,11 @@
+#define SETBIT(word,bp) (word|=(1<<bp))
+#define CLRBIT(word,bp) (word&=~(1<<bp))
+#define STATUSBIT(word,bp) ((word>>bp)&1)
+#define WRITEBIT(word,bp,bit) (word=(word&(~(1<<bp)))|(bit<<bp))
+#define WRITENIBBLE(word,bp,nibble) (word=(word&(~(0xf<<bp)))|(nibble<<bp))
+#define WRITEBYTE(word,bp,byte) (word=(word&(~(0xff<<bp)))|(byte<<bp))
+#define WRITEHALFWORD(word,bp,halfword) (word=(word&(~(0xffff<<bp)))|(halfword<<bp))
+#define READNIBBLE(word,sbp) ((word>>sbp)&15)
+#define SSETBIT(WORD,BP) (WORD=(1<<BP))
+#define SCLRBIT(WORD,BP) (WORD=(1<<BP))
+

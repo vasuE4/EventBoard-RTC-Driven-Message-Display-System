@@ -1,0 +1,17 @@
+#define CLEAR_LCD 0x01
+#define RET_CUR_HOME 0x02
+#define MODE_4BIT_1LINE 0x20
+#define MODE_4BIT_2LINE 0x28
+#define MODE_8BIT_1LINE 0x30
+#define MODE_8BIT_2LINE 0x38
+#define DISP_OFF 0x08
+#define DISP_ON_CUR_OFF 0x0c
+#define DISP_ON_CUR_ON 0x0e
+#define GOTO_LINE1_POS0 0x80
+#define GOTO_LINE2_POS0 0xc0
+#define GOTO_CGRAM 0x40
+#define SHIFT_CUR_RIGHT 0x06
+#define LCD_DATA 8
+#define RS 17
+#define RW 19
+#define EN 18
