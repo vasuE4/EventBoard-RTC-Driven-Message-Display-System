@@ -37,3 +37,51 @@ The LPC2148 manages the entire execution flow. It handles:
    * "ADC.h" contains the function declarations of the ADC related functions.
    * "minimain_rtc.h" contains the function declaations of the RTC related functions.
 ## Code Flow Execution   
+Main block:   
+FUNCTION main():   
+    INITIALIZE peripherals (LCD, RTC, ADC, KPM)   
+    ENABLE EINT0 interrupt  
+    SET RTC to predefined time and date  
+      
+    LOOP FOREVER:  
+        SET flag = 0  
+        FOR i FROM (totalmsgs - 1) DOWN TO 0:  
+            IF (RTC.hour == msglist[i].hour) AND   
+               (RTC.min >= msglist[i].min) AND   
+               (RTC.min <= msglist[i].min + 14):  
+                  
+                IF msglist[i].enabled == 1:  
+                    COPY msglist[i].text TO buffer   
+                ELSE:  
+                    COPY "                   " TO buffer  
+                  
+                SET flag = 1  
+                BREAK loop  
+          
+        IF flag == 1:   
+            CALL scrolllcd(buffer, i)  
+        ELSE:  
+            GET current RTC time, date, day  
+            READ ADC value  
+            DISPLAY RTC info, Date, Day, and ADC on LCD  
+ISR BLock:  
+FUNCTION eint0_isr():  
+    DISPLAY menu: "1.RTC, 2.msg, 3.ext"  
+    READ option from Keypad (op)  
+      
+    SWITCH op:  
+        CASE '1':   
+            INPUT new Time (H, M, S) -> SET RTC Time  
+            INPUT new Date (D, M, Y) -> SET RTC Date  
+            INPUT Day -> SET RTC Day  
+              
+        CASE '2':   
+            INPUT message Index  
+            INPUT enable status (1 or 0)  
+            UPDATE msglist[index].enabled  
+              
+        CASE '3':   
+            EXIT  
+              
+    CLEAR interrupt flag (EXTINT)  
+    RESET vector address (VICVectAddr)   
