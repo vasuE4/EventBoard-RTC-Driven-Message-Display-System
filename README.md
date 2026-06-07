@@ -25,3 +25,10 @@ The LPC2148 manages the entire execution flow. It handles:
 4. Environmental Monitoring:
    * LM35 Sensor: Communicates with the controller via the on-chip ADC. This allows the system to measure and display ambient room temperature when no message is scheduled.
 ## Set-Up Instructions   
+1. Before using the Peripherals you must initialize the peripherals by calling InitLCD(),InitKPM(),RTC_Init(),Init_ADC().   
+2. Notes that you must include all the required headers like "LPC21xx.h","string.h" and user defined hearders like "lcd_defines.h","lcd.h","delay.h","types.h","defines.h","KPM.h","KPM_defines.h","ADC.h","minimain_rtc.h".
+   * "lcd_defines" contains the command values and the pin connections of LCD.   
+   * "lcd.h" contains the function declarations of LCD.   
+   * "delay.h" contains the function declarations of delay functions according to the time of delay required.   
+   * "types.h" contains the type casted details of the existing data types.
+     
