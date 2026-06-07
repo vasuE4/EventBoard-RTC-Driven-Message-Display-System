@@ -31,4 +31,9 @@ The LPC2148 manages the entire execution flow. It handles:
    * "lcd.h" contains the function declarations of LCD.   
    * "delay.h" contains the function declarations of delay functions according to the time of delay required.   
    * "types.h" contains the type casted details of the existing data types.
-     
+   * "defines.h" contains the macro expansions of Bit/Byte manipulation.   
+   * "KPM.h" contains the function declarations of the Keypad related operations.   
+   * "KPM_defines.h" contains the Pin connections of the Keypad.   
+   * "ADC.h" contains the function declarations of the ADC related functions.
+   * "minimain_rtc.h" contains the function declaations of the RTC related functions.
+## Code Flow Execution   
