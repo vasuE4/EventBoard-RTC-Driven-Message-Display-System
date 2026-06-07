@@ -13,6 +13,9 @@ The EventBoard - RTC-Driven Message Display System is an LPC2148-based system th
 5. On chip ADC  
 6. On chip RTC  
 7. Switch
+## Tools   
+Compiler: Keil uVision4   
+Flashing Tools: Flash Magic   
 ## System Architecture and Component roles   
 1. The Central Controller: LPC2148   
 The LPC2148 manages the entire execution flow. It handles:
@@ -84,4 +87,31 @@ FUNCTION eint0_isr():
             EXIT  
               
     CLEAR interrupt flag (EXTINT)  
-    RESET vector address (VICVectAddr)   
+    RESET vector address (VICVectAddr)    
+## Pin Connections   
+1. Connect P0.1 to the switch for an External interrupt, because P0.1 supports EINT0 for the 4th functionality.   
+2. Connect P0.8 to P0.15 to the LCD pins.  
+3. Connect the P0.17 to the RS(Register Select) pin of the LCD.  
+4. Connect the P0.18 to the EN(Enable) pin of the LCD.  
+5. Connect the P0.28 to the Output pin of the LM35 sensor, because P0.28 supports the Channel-1, we are connecting to the Channel-1 because in LPC2148 there is no Channel-0.
+6. Connect the pins P1.16 to P1.23 to the Keypad Matrix.
+7. Connect the VCC and GND pins of the ADC to the 3.3V and the GND respectively.
+## How to Use   
+1. System Power-Up:   
+Upon connecting the power supply after Loading the code into the hardware, the system will initialize all peripherals.
+2. Operation:   
+Once the system is powered on, it will automatically cycle through the following modes:   
+   * Normal Mode: Displays the current time, date, day, and room temperature (ADC reading).   
+   * Event Mode: When the RTC matches a scheduled message time, the system automatically switches to Scrolling Mode, displaying the event text on the first line and a 15-minute countdown timer on the second line.   
+   * Interrupt Mode:When the Switch is pressed which is connected to the EINT0 (P0.1) Button at any time the interrupt is triggered.   
+     -> Option 1 (RTC): Use the keypad to update the current time, date, and day manually.   
+     -> Option 2 (Msg): Enter the message index to toggle it Enabled (1) or Disabled (0).  
+     -> Option 3 (Exit): Return to the main display.   
+3. Implementation Details:   
+   * Scrolling Logic: The code handles both short strings (<= 24 chars) and long strings (> 24 chars) using a buffer window method to ensure smooth display on the 16x2 LCD.   
+   * Interrupt-Driven: The configuration menu is handled via EINT0_ISR, ensuring that system settings can be modified without resetting the controller.
+## Future Improvements   
+1. EEPROM Persistence: Currently, all settings (time/messages) are lost upon power reset. Implementing I2C EEPROM storage will allow the system to save user-defined schedules and RTC configurations permanently.   
+2. Secured Admin Mode: Integrating a 4-digit PIN authentication adds a professional security layer that prevents unauthorized access to system settings. By masking input with asterisks, the system ensures sensitive configuration data remains protected from casual observers. This feature transforms the device from a simple display tool into a secure administrative platform suitable for academic or office environments.
+3. Sensor Integration: Expand the ADC module to include more environmental sensors (e.g., humidity or light sensors) and display them in a user-selectable toggle mode on the second line.
+## Reference   
